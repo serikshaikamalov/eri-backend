@@ -27,6 +27,7 @@ class DbController extends Controller
     }
 
 
+    // ONE ITEM
     public function actionUser()
     {
         $dbObject = Yii::$app->db;
@@ -54,6 +55,88 @@ class DbController extends Controller
 
         return $response;
     }
+
+
+
+    // FILTER
+    public function actionUserFiltered()
+    {
+        $dbObject = Yii::$app->db;
+
+        $params = [ ':Id'=> 1,
+                    ':FirstName' => 'Serik'
+        ];
+
+        $users = $dbObject->createCommand('SELECT * FROM users WHERE Id=:Id AND FirstName=:FirstName')
+                        ->bindValues($params)->queryAll();
+
+        $response = Yii::$app->response;
+        $response->format = 'json';
+        $response->data = $users;
+
+        return $response;
+    }
+
+
+
+    // INSERT
+    public function actionInsertUser()
+    {
+        $dbObject = Yii::$app->db;
+
+        $result = $dbObject->createCommand()->insert('users', [
+            'FirstName' => 'Araylim',
+            'LastName' => 'Shaikamalova'
+        ])->execute();
+
+        $response = Yii::$app->response;
+        $response->format = 'json';
+        $response->data = $result;
+
+        return $response;
+    }
+
+
+    // UPDATE
+    public function actionUpdateUser()
+    {
+        $dbObject = Yii::$app->db;
+
+        $result = $dbObject->createCommand()->update('users', [
+            'LastName' => 'Ushkempir'
+        ], 'LastName = "Shaikamalova"')->execute();
+
+        $response = Yii::$app->response;
+        $response->format = 'json';
+        $response->data = $result;
+
+        return $response;
+    }
+
+    // DELETE
+    public function actionDeleteUser()
+    {
+        $dbObject = Yii::$app->db;
+
+        $result = $dbObject->createCommand()->delete('users', [
+            'LastName' => 'Ushkempir'
+        ])->execute();
+
+        $response = Yii::$app->response;
+        $response->format = 'json';
+        $response->data = $result;
+
+        return $response;
+    }
+
+
+
+
+
+
+
+
+
 
 
 
