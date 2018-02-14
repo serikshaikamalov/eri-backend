@@ -130,20 +130,17 @@ class DbController extends Controller
     }
 
 
+    // PAGINATION
+    public function actionUserPagination()
+    {
 
+    }
 
+    // SIMPLE SEARCH
+    public function actionUserSearch()
+    {
 
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 
