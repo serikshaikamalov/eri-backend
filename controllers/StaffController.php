@@ -6,7 +6,7 @@ use yii\web\controller;
 
 
 // Мы расширяем базовый класс
-class UserController extends Controller
+class StaffController extends Controller
 {
     public $defaultAction = 'info';
 
