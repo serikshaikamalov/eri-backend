@@ -14,8 +14,8 @@ class UserController extends Controller
     public function actionInfo()
     {
         $request =  Yii::$app->request;
-
         $userHost = $request->userHost;
+
 
         return YII_ENV_DEV;
         //var_dump( $userHost );
@@ -41,5 +41,8 @@ class UserController extends Controller
             ];
         return $response;
     }
+
+    
+
 
 }
