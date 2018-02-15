@@ -41,8 +41,9 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Миграция', 'url' => ['/migrations']],
             ['label' => 'ActiveRecord', 'url' => ['/staffs']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
+            ['label' => 'Посты', 'url' => ['/post/list']],
+            ['label' => 'RBAC', 'url' => ['/site/rbac']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
