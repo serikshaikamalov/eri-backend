@@ -21,8 +21,8 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'mdm\admin\models\User',
-            'loginUrl' => ['rbac/user/login'],
+            'identityClass' => 'app\models\User',
+            'loginUrl' => ['site/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -57,8 +57,8 @@ $config = [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'site/*',
-            //'rbac/*'
+            'site/login',
+            'rbac/*'
         ]
     ],
     'params' => $params,

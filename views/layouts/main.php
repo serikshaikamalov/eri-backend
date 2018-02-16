@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use mdm\admin\components\Helper;
 
 AppAsset::register($this);
 ?>
@@ -28,6 +29,31 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
+
+    $menuItems = [
+        ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
+        ['label' => 'Статьи', 'url' => ['/admin/post/']],
+
+        ['label' => 'Миграция', 'url' => ['/migrations']],
+        ['label' => 'ActiveRecord', 'url' => ['/staffs']],
+
+        ['label' => 'Посты', 'url' => ['/post/list']],
+        //['label' => 'Регистрация', 'url' => ['/site/signup']],
+        ['label' => 'RBAC', 'url' => ['/site/rbac']],
+        Yii::$app->user->isGuest ? (
+        ['label' => 'Login', 'url' => ['/site/login']]
+        ) : (
+            '<li>'
+            . Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>'
+        )
+    ];
+
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
@@ -37,26 +63,7 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Миграция', 'url' => ['/migrations']],
-            ['label' => 'ActiveRecord', 'url' => ['/staffs']],
-            ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
-            ['label' => 'Посты', 'url' => ['/post/list']],
-            ['label' => 'RBAC', 'url' => ['/site/rbac']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'items' => $menuItems
     ]);
     NavBar::end();
     ?>
