@@ -57,8 +57,8 @@ $config = [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'site/login',
-            'rbac/*'
+            //'site/login',
+            //'rbac/*'
         ]
     ],
     'params' => $params,
