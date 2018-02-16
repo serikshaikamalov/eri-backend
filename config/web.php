@@ -57,6 +57,7 @@ $config = [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
+            'api/*'
             //'site/login',
             //'rbac/*'
         ]
@@ -78,7 +79,10 @@ $config = [
             ],
             'layout' => 'left-menu',
             'mainLayout' => '@app/views/layouts/main.php',
-        ]
+        ],
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
     ],
 ];
 
