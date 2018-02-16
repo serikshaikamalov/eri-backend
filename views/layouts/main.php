@@ -32,27 +32,38 @@ AppAsset::register($this);
 
     $menuItems = [
         ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
+        ['label' => 'Staffs', 'url' => ['/admin/staff/']],
         ['label' => 'Статьи', 'url' => ['/admin/post/']],
 
-        ['label' => 'Миграция', 'url' => ['/migrations']],
-        ['label' => 'ActiveRecord', 'url' => ['/staffs']],
 
-        ['label' => 'Посты', 'url' => ['/post/list']],
+//        ['label' => 'Миграция', 'url' => ['/migrations']],
+//        ['label' => 'ActiveRecord', 'url' => ['/staffs']],
+//
+//        ['label' => 'Посты', 'url' => ['/post/list']],
         //['label' => 'Регистрация', 'url' => ['/site/signup']],
-        ['label' => 'RBAC', 'url' => ['/site/rbac']],
-        Yii::$app->user->isGuest ? (
-        ['label' => 'Login', 'url' => ['/site/login']]
-        ) : (
-            '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>'
-        )
+        //['label' => 'RBAC', 'url' => ['/site/rbac']],
+
+//         ? (
+//
+//        ) : (
+//            '<li>'
+//            . Html::beginForm(['/site/logout'], 'post')
+//            . Html::submitButton(
+//                'Logout (' . Yii::$app->user->identity->username . ')',
+//                ['class' => 'btn btn-link logout']
+//            )
+//            . Html::endForm()
+//            . '</li>'
+//        )
     ];
+
+    if( Yii::$app->user->isGuest ){
+        array_push( $menuItems,  ['label' => 'Login', 'url' => ['/site/login']]);
+    }else{
+        array_push( $menuItems,  ['label' =>  'Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout']]);
+    }
+
+
 
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -63,7 +74,7 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems
+        'items' => Helper::filter($menuItems)
     ]);
     NavBar::end();
     ?>

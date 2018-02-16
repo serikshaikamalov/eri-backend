@@ -52,4 +52,18 @@ class StaffController extends Controller
         $response->data = $staffs;
         return $response;
     }
+
+
+
+    public function actionGetStaff( $id )
+    {
+        if( $id ){
+            $staff = Staff::findOne($id);
+            $response = Yii::$app->response;
+            $response->format = 'json';
+            $response->data = $staff;
+            return $response;
+        }
+
+    }
 }
