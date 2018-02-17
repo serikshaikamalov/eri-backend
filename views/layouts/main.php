@@ -34,6 +34,7 @@ AppAsset::register($this);
         ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
         ['label' => 'Staffs', 'url' => ['/admin/staff/']],
         ['label' => 'Статьи', 'url' => ['/admin/post/']],
+        ['label' => 'Media Manager', 'url' => ['/imagemanager/']],
 
 
 //        ['label' => 'Миграция', 'url' => ['/migrations']],
