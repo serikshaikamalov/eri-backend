@@ -32,7 +32,7 @@ class Staff extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['IsActive'], 'integer'],
+            [['IsActive', 'ImageManager_id_avatar'], 'integer'],
             [['ShortBiography'], 'string'],
             [['Title', 'AvatarPath'], 'string', 'max' => 255],
             [['FullName', 'PositionTitle', 'ResearchGroupTitle'], 'string', 'max' => 200],
@@ -53,6 +53,7 @@ class Staff extends \yii\db\ActiveRecord
             'ResearchGroupTitle' => 'Research Group Title',
             'ShortBiography' => 'Short Biography',
             'AvatarPath' => 'Avatar Path',
+            'ImageManager_id_avatar' => 'Image'
         ];
     }
 }
