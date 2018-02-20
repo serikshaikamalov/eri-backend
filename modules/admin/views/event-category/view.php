@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\modules\admin\controllers\Helper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EventCategory */
@@ -25,14 +26,30 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <?php
+        
+    ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'Id',
+            [
+                'label' => 'Event Category ID',
+                'value' => $model->Id
+            ],
             'Title',
-            'IsActive',
-            'ParentId',
-            'LangId',
+            [
+                'label' => 'Status',
+                'value' => Helper::getStatusNameById( $model->LangId)
+            ],
+            //'ParentId',
+            [
+                'label' => 'Parent Category',
+                'value' => $parentCategoryTitle
+            ],
+            [
+                'label' => 'Language',
+                'value' => Helper::getLanguageNameById( $model->LangId )
+            ],
         ],
     ]) ?>
 

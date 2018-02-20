@@ -1,7 +1,5 @@
 <?php
-
 namespace app\modules\admin\controllers;
-
 use Yii;
 use app\models\EventCategory;
 use app\models\EventCategorySearch;
@@ -9,14 +7,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * EventCategoryController implements the CRUD actions for EventCategory model.
- */
 class EventCategoryController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
+    public $sidebar;
+
     public function behaviors()
     {
         return [
@@ -52,9 +46,47 @@ class EventCategoryController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $eventCategories = $this->getEventCategories();
+
+        $parentCategoryTitle = '';
+        if( $eventCategories && count($eventCategories) > 0 ){
+            $parentCategoryIndex = array_search( $model->ParentId,  $eventCategories);
+
+            if( $model->ParentId == 0){
+                $parentCategoryTitle = 'NONE';
+            }else{
+                $parentCategoryTitle = $eventCategories[$parentCategoryIndex]->Title;
+            }
+
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'parentCategoryTitle' => $parentCategoryTitle
         ]);
+    }
+
+
+    /*
+     * @return language list
+     */
+    public function getLanguageList(){
+        $languages = [];
+        $languages[1] = 'English';
+        $languages[2] = 'Turkish';
+        $languages[3] = 'Russian';
+        $languages[4] = 'Kazakh';
+        return $languages;
+    }
+    
+    
+    public function getLanguageNameById( $id = null ){
+        $languageTitle = null;
+        
+        if( !$id ){
+        }
+        
     }
 
 
@@ -88,7 +120,7 @@ class EventCategoryController extends Controller
     public function getEventCategories(){
 
         return EventCategory::find()
-            ->select(['Id', 'Title'])
+            ->select(['Id', 'Title', 'LangId'])
             ->where(['IsActive' => 1])
             ->all();
     }
@@ -98,7 +130,7 @@ class EventCategoryController extends Controller
 
         if( $items && count($items) > 0 ){
             foreach( $items as $item ){
-                $result[$item->Id] = $item->Title;
+                $result[$item->Id] = Helper::getLanguageNameById($item->LangId) .'-'.$item->Title;
             }
         }
         return $result;
@@ -116,12 +148,23 @@ class EventCategoryController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        // load eventCategories
+        $eventCategories = $this->getEventCategories();
+        
+        // init dropDownlist
+        $eventCategoriesDropdownList = $this->getEventCategoryDropdownList($eventCategories);
+
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->ParentId =  $model->ParentId ?  $model->ParentId : 0;
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->Id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'eventCategoriesDropdownList' => $eventCategoriesDropdownList
         ]);
     }
 
