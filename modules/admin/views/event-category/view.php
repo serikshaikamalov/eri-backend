@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'Title',
             [
                 'label' => 'Status',
-                'value' => Helper::getStatusNameById( $model->LangId)
+                'value' => Helper::getStatusNameById( $model->IsActive)
             ],
             //'ParentId',
             [
