@@ -490,16 +490,16 @@
         },
         {
             "name": "noam148/yii2-image-manager",
-            "version": "1.2.7",
+            "version": "1.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/noam148/yii2-image-manager.git",
-                "reference": "d07209c36257710e8c54e7f48272f8f0ce97b6f5"
+                "reference": "ac968c0b8ee112b5fa69f5d918eb22630f4485cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/noam148/yii2-image-manager/zipball/d07209c36257710e8c54e7f48272f8f0ce97b6f5",
-                "reference": "d07209c36257710e8c54e7f48272f8f0ce97b6f5",
+                "url": "https://api.github.com/repos/noam148/yii2-image-manager/zipball/ac968c0b8ee112b5fa69f5d918eb22630f4485cb",
+                "reference": "ac968c0b8ee112b5fa69f5d918eb22630f4485cb",
                 "shasum": ""
             },
             "require": {
@@ -535,20 +535,20 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-02-03T13:15:51+00:00"
+            "time": "2018-02-18T20:13:22+00:00"
         },
         {
             "name": "noam148/yii2-image-resize",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/noam148/yii2-image-resize.git",
-                "reference": "75796bdbe9bd66e23f8aff9d44ab431936a5a15e"
+                "reference": "32c5adf7211e06cefc6861a2164855573e968038"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/noam148/yii2-image-resize/zipball/75796bdbe9bd66e23f8aff9d44ab431936a5a15e",
-                "reference": "75796bdbe9bd66e23f8aff9d44ab431936a5a15e",
+                "url": "https://api.github.com/repos/noam148/yii2-image-resize/zipball/32c5adf7211e06cefc6861a2164855573e968038",
+                "reference": "32c5adf7211e06cefc6861a2164855573e968038",
                 "shasum": ""
             },
             "require": {
@@ -581,7 +581,7 @@
                 "resize",
                 "yii2"
             ],
-            "time": "2016-11-29T18:17:37+00:00"
+            "time": "2018-02-18T19:23:04+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1159,23 +1159,23 @@
         },
         {
             "name": "codeception/stub",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Stub.git",
-                "reference": "673ea54cdd7141e0a5138ad78aaa60751912f573"
+                "reference": "95fb7a36b81890dd2e5163e7ab31310df6f1bb99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Stub/zipball/673ea54cdd7141e0a5138ad78aaa60751912f573",
-                "reference": "673ea54cdd7141e0a5138ad78aaa60751912f573",
+                "url": "https://api.github.com/repos/Codeception/Stub/zipball/95fb7a36b81890dd2e5163e7ab31310df6f1bb99",
+                "reference": "95fb7a36b81890dd2e5163e7ab31310df6f1bb99",
                 "shasum": ""
             },
             "require": {
-                "phpunit/phpunit-mock-objects": "^2.3|^3.0|^4.0|^5.0"
+                "phpunit/phpunit-mock-objects": ">2.3 <7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|^5.0|^6.0|^7.0"
+                "phpunit/phpunit": ">=4.8 <8.0"
             },
             "type": "library",
             "autoload": {
@@ -1188,7 +1188,7 @@
                 "MIT"
             ],
             "description": "Flexible Stub wrapper for PHPUnit's Mock Builder",
-            "time": "2018-01-27T00:37:17+00:00"
+            "time": "2018-02-18T13:56:56+00:00"
         },
         {
             "name": "codeception/verify",

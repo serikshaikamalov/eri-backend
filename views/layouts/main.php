@@ -28,34 +28,15 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
+    <!-- Main menu -->
     <?php
 
     $menuItems = [
         ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
         ['label' => 'Staffs', 'url' => ['/admin/staff/']],
         ['label' => 'Статьи', 'url' => ['/admin/post/']],
+        ['label' => 'Events', 'url' => ['/admin/event-category/']],
         ['label' => 'Media Manager', 'url' => ['/imagemanager/']],
-
-
-//        ['label' => 'Миграция', 'url' => ['/migrations']],
-//        ['label' => 'ActiveRecord', 'url' => ['/staffs']],
-//
-//        ['label' => 'Посты', 'url' => ['/post/list']],
-        //['label' => 'Регистрация', 'url' => ['/site/signup']],
-        //['label' => 'RBAC', 'url' => ['/site/rbac']],
-
-//         ? (
-//
-//        ) : (
-//            '<li>'
-//            . Html::beginForm(['/site/logout'], 'post')
-//            . Html::submitButton(
-//                'Logout (' . Yii::$app->user->identity->username . ')',
-//                ['class' => 'btn btn-link logout']
-//            )
-//            . Html::endForm()
-//            . '</li>'
-//        )
     ];
 
     if( Yii::$app->user->isGuest ){
@@ -89,6 +70,7 @@ AppAsset::register($this);
     </div>
 </div>
 
+<!-- Footer -->
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; GoSmart <?= date('Y') ?></p>
