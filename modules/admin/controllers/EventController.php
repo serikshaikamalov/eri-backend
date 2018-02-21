@@ -96,23 +96,34 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing Events model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $eventCategories = EventCategory::find()
+            ->select(['Id', 'Title'])
+            ->all();
+
+        // Convert to VM
+        $eventCategoriesVM = [];
+        if( $eventCategories && count( $eventCategories ) > 0 ){
+            foreach ( $eventCategories as $eventCategory ){
+                $eventCategoriesVM[ $eventCategory->Id ] = $eventCategory->Title;
+            }
+        }
+
+
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
             return $this->redirect(['view', 'id' => $model->Id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'eventCategoriesVM' => $eventCategoriesVM
         ]);
     }
 
