@@ -3,11 +3,10 @@ namespace app\modules\api\controllers;
 
 use app\models\Staff;
 use Yii;
-use yii\web\Controller;
 use app\modules\api\models\StaffVM;
 
 
-class StaffController extends Controller
+class StaffController extends ApiBaseController
 {
     public $enableCsrfValidation = false;
 
