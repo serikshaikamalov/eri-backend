@@ -30,8 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'Id',
             'Title',
+            'StartDay',
             'StartTime',
-            'EndTime',
             'Description:html',
             'EventCategoryId',
             'LangId',

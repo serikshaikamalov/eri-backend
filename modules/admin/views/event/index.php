@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\SerialColumn'],
                     'Title',
                     'StartTime',
+                    'LangId',
                     'IsActive',
                     ['class' => 'yii\grid\ActionColumn'],
                 ],

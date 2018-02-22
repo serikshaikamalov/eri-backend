@@ -19,7 +19,7 @@ class EventsSearch extends Events
     {
         return [
             [['Id', 'EventCategoryId', 'LangId', 'CreatedBy', 'IsActive'], 'integer'],
-            [['Title', 'StartTime', 'EndTime', 'Description', 'SpeakerFullName', 'CreatedDate', 'UpdatedDate'], 'safe'],
+            [['Title', 'StartDay', 'StartTime', 'Description', 'SpeakerFullName', 'CreatedDate', 'UpdatedDate'], 'safe'],
         ];
     }
 
@@ -60,8 +60,8 @@ class EventsSearch extends Events
         // grid filtering conditions
         $query->andFilterWhere([
             'Id' => $this->Id,
+            'StartDay' => $this->StartDay,
             'StartTime' => $this->StartTime,
-            'EndTime' => $this->EndTime,
             'EventCategoryId' => $this->EventCategoryId,
             'LangId' => $this->LangId,
             'CreatedBy' => $this->CreatedBy,

@@ -9,8 +9,8 @@ use Yii;
  *
  * @property int $Id
  * @property string $Title
+ * @property string $StartDay
  * @property string $StartTime
- * @property string $EndTime
  * @property string $Description
  * @property int $EventCategoryId
  * @property int $LangId
@@ -36,7 +36,8 @@ class Events extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['StartTime', 'EndTime', 'CreatedDate', 'UpdatedDate'], 'safe'],
+            [['Title', 'StartDay', 'StartTime', 'LangId', 'EventCategoryId'], 'required'],
+            [['StartDay', 'StartTime', 'CreatedDate', 'UpdatedDate'], 'safe'],
             [['Description'], 'string'],
             [['EventCategoryId', 'LangId', 'CreatedBy', 'IsActive'], 'integer'],
             [['Title', 'SpeakerFullName'], 'string', 'max' => 255],
@@ -51,8 +52,8 @@ class Events extends \yii\db\ActiveRecord
         return [
             'Id' => 'ID',
             'Title' => 'Title',
+            'StartDay' => 'Start Day',
             'StartTime' => 'Start Time',
-            'EndTime' => 'End Time',
             'Description' => 'Description',
             'EventCategoryId' => 'Event Category ID',
             'LangId' => 'Lang ID',

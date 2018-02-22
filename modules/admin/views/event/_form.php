@@ -12,13 +12,22 @@ use dosamigos\ckeditor\CKEditor;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <!-- Title -->
     <?= $form->field($model, 'Title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'StartTime')->widget(\yii\jui\DatePicker::className(), ['clientOptions' => ['defaultDate' => '2014-01-01']]) ?>
+    <!-- Start Day -->
+<!--    --><?//= $form->field($model, 'StartDay')->widget(\yii\jui\DatePicker::className(), [
+//            'clientOptions' => ['defaultDate' => '2018-01-01'],
+//            'dateFormat' => 'yyyy-MM-dd',
+//    ])
+//    ?>
 
-    <?= $form->field($model, 'EndTime')->textInput() ?>
+    <?= $form->field($model, 'StartDay')->input('date') ?>
 
-    <?//= $form->field($model, 'Description')->textarea(['rows' => 6]) ?>
+    <!-- Start Time -->
+    <?= $form->field($model, 'StartTime')->input('time'); ?>
+
+    <!-- Description -->
     <?
         echo $form->field($model, 'Description')->widget(CKEditor::className(), [
             'options' => ['rows' => 200],
@@ -31,17 +40,18 @@ use dosamigos\ckeditor\CKEditor;
 
     <?= $form->field($model, 'EventCategoryId')->dropDownList( $eventCategoriesVM, [ 'prompt' => 'Select Category' ] ) ?>
 
-    <?= $form->field($model, 'LangId')->textInput() ?>
+    <!-- Languages -->
+    <?
+        echo $form->field($model, 'LangId')->dropDownList( $languages, ['prompt' => 'Select Language'] )
+    ?>
+
 
     <?= $form->field($model, 'SpeakerFullName')->textInput(['maxlength' => true]) ?>
 
-<!--    --><?//= $form->field($model, 'CreatedBy')->textInput() ?>
-<!---->
-<!--    --><?//= $form->field($model, 'CreatedDate')->textInput() ?>
-<!---->
-<!--    --><?//= $form->field($model, 'UpdatedDate')->textInput() ?>
-
-    <?= $form->field($model, 'IsActive')->textInput() ?>
+    <!-- Status -->
+    <?
+        echo $form->field($model, 'IsActive')->dropDownList($statuses, ['prompt' => 'Select Status']);
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

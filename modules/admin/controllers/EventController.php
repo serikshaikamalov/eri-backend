@@ -1,23 +1,14 @@
 <?php
-
 namespace app\modules\admin\controllers;
-
-use app\models\EventCategory;
 use Yii;
 use app\models\Events;
 use app\models\EventsSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * EventController implements the CRUD actions for Events model.
- */
-class EventController extends Controller
+class EventController extends AdminBaseController
 {
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [
@@ -30,10 +21,9 @@ class EventController extends Controller
         ];
     }
 
-    /**
-     * Lists all Events models.
-     * @return mixed
-     */
+   /*
+    * Event: List
+    */
     public function actionIndex()
     {
         $searchModel = new EventsSearch();
@@ -45,11 +35,8 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Events model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+    /*
+     * Event: View
      */
     public function actionView($id)
     {
@@ -58,81 +45,60 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Events model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+
+    /*
+     * Event: Create
      */
     public function actionCreate()
     {
         $model = new Events();
 
-
-        $eventCategories = EventCategory::find()
-            ->select(['Id', 'Title'])
-            ->all();
-
-        // Convert to VM
-        $eventCategoriesVM = [];
-        if( $eventCategories && count( $eventCategories ) > 0 ){
-            foreach ( $eventCategories as $eventCategory ){
-                $eventCategoriesVM[ $eventCategory->Id ] = $eventCategory->Title;
-            }
-        }
-
-
-
-
         if ($model->load(Yii::$app->request->post())) {
 
-            $model->save();
+            $model->StartDay = date('Y-m-d', strtotime($model->StartDay));
+            $model->CreatedDate = date('Y-m-d H:i:s');
+            $model->UpdatedDate = date('Y-m-d H:i:s');
+            $model->CreatedBy = Yii::$app->user->id;
 
+            $model->save();
             return $this->redirect(['view', 'id' => $model->Id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'eventCategoriesVM' => $eventCategoriesVM
+            'eventCategoriesVM' => $this->loadEventCategories(),
+            'languages' => $this->loadLanguages(),
+            'statuses' => $this->loadStatuses()
         ]);
     }
 
 
 
+    /*
+     * Event: Update
+     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        $eventCategories = EventCategory::find()
-            ->select(['Id', 'Title'])
-            ->all();
-
-        // Convert to VM
-        $eventCategoriesVM = [];
-        if( $eventCategories && count( $eventCategories ) > 0 ){
-            foreach ( $eventCategories as $eventCategory ){
-                $eventCategoriesVM[ $eventCategory->Id ] = $eventCategory->Title;
-            }
-        }
-
-
-
         if ($model->load(Yii::$app->request->post())) {
+
+            $model->UpdatedDate = date('Y-m-d H:i:s');
+
             $model->save();
             return $this->redirect(['view', 'id' => $model->Id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'eventCategoriesVM' => $eventCategoriesVM
+            'eventCategoriesVM' => $this->loadEventCategories(),
+            'languages' => $this->loadLanguages(),
+            'statuses' => $this->loadStatuses()    
         ]);
     }
 
-    /**
-     * Deletes an existing Events model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+    /*
+     * Event: Delete
      */
     public function actionDelete($id)
     {
@@ -141,12 +107,8 @@ class EventController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Events model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Events the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+    /*
+     * Event: Find one
      */
     protected function findModel($id)
     {

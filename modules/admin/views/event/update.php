@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Events */
 
-$this->title = 'Update Events: {nameAttribute}';
+$this->title = 'Update Events: '.$model->Title;
 $this->params['breadcrumbs'][] = ['label' => 'Events', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->Title, 'url' => ['view', 'id' => $model->Id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -16,7 +16,9 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'eventCategoriesVM' => $eventCategoriesVM
+        'eventCategoriesVM' => $eventCategoriesVM,
+        'languages' => $languages,
+        'statuses' => $statuses
     ]) ?>
 
 </div>
