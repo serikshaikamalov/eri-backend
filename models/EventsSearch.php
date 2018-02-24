@@ -8,13 +8,10 @@ use yii\data\ActiveDataProvider;
 use app\models\Event;
 
 /**
- * EventsSearch represents the model behind the search form of `app\models\Events`.
+ * EventsSearch
  */
 class EventsSearch extends Event
 {
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -23,22 +20,12 @@ class EventsSearch extends Event
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
-
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
+    
     public function search($params)
     {
         $query = Event::find()
@@ -46,8 +33,6 @@ class EventsSearch extends Event
             ->with('status')
             ->with('eventCategory')
             ->with('user');
-        //->all();
-
 
         // add conditions that should always apply here
 

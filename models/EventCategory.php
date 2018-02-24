@@ -1,51 +1,51 @@
 <?php
-
 namespace app\models;
-
 use Yii;
+use \yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "eventCategory".
- *
  * @property int $Id
  * @property string $Title
- * @property int $IsActive
+ * @property int $StatusId
  * @property int $ParentId
- * @property int $LangId
+ * @property int $LanguageId
  */
-class EventCategory extends \yii\db\ActiveRecord
+class EventCategory extends ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'eventCategory';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['IsActive', 'ParentId', 'LangId'], 'integer'],
-            [['LangId'], 'required'],
+            [['StatusId', 'ParentId', 'LanguageId'], 'integer'],
+            [['LanguageId'], 'required'],
             [['Title'], 'string', 'max' => 50],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'Id' => 'ID',
+            'Id' => 'Id',
             'Title' => 'Title',
-            'IsActive' => 'Is Active',
-            'ParentId' => 'Parent ID',
-            'LangId' => 'Lang ID',
+            'StatusId' => 'Status',
+            'ParentId' => 'Parent',
+            'LanguageId' => 'Language',
         ];
+    }
+
+
+    /*
+     * RELATIONS
+     */
+    public function getLanguage(){
+        return $this->hasOne( Language::className(), ['Id' => 'LanguageId'] );
+    }
+
+    public function getStatus(){
+        return $this->hasOne( Status::className(), ['Id' => 'StatusId'] );
     }
 }

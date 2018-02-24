@@ -5,19 +5,20 @@ use yii\widgets\DetailView;
 use app\modules\admin\controllers\Helper;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\EventCategory */
+/* @var $vm app\viewmodels\EventCategoryViewModel */
 
-$this->title = $model->Title;
+$this->title = $vm->Title;
 $this->params['breadcrumbs'][] = ['label' => 'Event Categories', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $vm->Title;
 ?>
+
 <div class="event-category-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->Id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->Id], [
+        <?= Html::a('Update', ['update', 'id' => $vm->Id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $vm->Id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -26,29 +27,26 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?php
-        
-    ?>
+
     <?= DetailView::widget([
-        'model' => $model,
+        'model' => $vm,
         'attributes' => [
             [
                 'label' => 'Event Category ID',
-                'value' => $model->Id
+                'value' => $vm->Id
             ],
             'Title',
             [
                 'label' => 'Status',
-                'value' => Helper::getStatusNameById( $model->IsActive)
+                'value' => $vm->Status->Title
             ],
-            //'ParentId',
             [
                 'label' => 'Parent Category',
-                'value' => $parentCategoryTitle
+                'value' => $vm->Parent->Title
             ],
             [
                 'label' => 'Language',
-                'value' => Helper::getLanguageNameById( $model->LangId )
+                'value' => $vm->Language->Title
             ],
         ],
     ]) ?>

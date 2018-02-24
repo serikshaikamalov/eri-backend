@@ -62,6 +62,10 @@ class Event extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     * RELATIONS
+     * @return \yii\db\ActiveQuery
+     */
     public function getLanguage(){
         return $this->hasOne( Language::className(), ['Id' => 'LangId'] );
     }

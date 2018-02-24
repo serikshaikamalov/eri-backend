@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\EventCategory */
+/* @var $vm app\viewmodels\EventCategoryFormViewModel */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -13,38 +13,16 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <!-- Title -->
-    <?= $form->field($model, 'Title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($vm->model, 'Title')->textInput(['maxlength' => true]) ?>
 
     <!-- Published -->
-    <?
-        $items = [
-            '0' => 'False',
-            '1' => 'True',
-        ];
-
-        echo $form->field($model, 'IsActive')->dropDownList( $items );
-    ?>
+    <?= $form->field($vm->model, 'StatusId')->dropDownList($vm->statuses ); ?>
 
     <!-- Language -->
-    <?
-        $items = [
-            '1' => 'English',
-            '2' => 'Turkish',
-            '3' => 'Russian',
-            '4' => 'Kazakh'
-        ];
-
-        echo $form->field($model, 'LangId')->dropDownList($items)
-    ?>
+    <?= $form->field($vm->model, 'LanguageId')->dropDownList($vm->languages); ?>
 
     <!-- Parent -->
-    <?
-        $params = [
-            'prompt' => 'Select Category'
-        ];
-        echo $form->field($model, 'ParentId')->dropDownList($eventCategoriesDropdownList, $params);
-    ?>
-
+    <?= $form->field($vm->model, 'ParentId')->dropDownList($vm->parents, ['prompt' => 'Select Category']);  ?>
 
 
     <div class="form-group">

@@ -35,15 +35,7 @@ class EventController extends AdminBaseController
     {
         $searchModel = new EventsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        $res = Event::find();
-//            ->with('language')
-//            ->with('status')
-//            ->with('eventCategory')
-//            ->with('user')
-            //->all();
-
-
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -117,8 +109,7 @@ class EventController extends AdminBaseController
         ]);
     }
 
-
-
+    
     /*
      * Event: Update
      */

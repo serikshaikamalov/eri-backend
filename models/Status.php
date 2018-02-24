@@ -1,13 +1,14 @@
 <?php
 namespace app\models;
 use Yii;
+use \yii\db\ActiveRecord;
 
 /**
  * @property int $Id
  * @property string $Title
  * @property int $IsActive
  */
-class Status extends \yii\db\ActiveRecord
+class Status extends ActiveRecord
 {
     public static function tableName()
     {

@@ -1,16 +1,24 @@
 <?php
 namespace app\modules\admin\controllers;
+
 use Yii;
-use app\models\EventCategory;
-use app\models\EventCategorySearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
-class EventCategoryController extends Controller
+
+// Models
+use app\models\EventCategory;
+use app\models\EventCategorySearch;
+use app\models\Language;
+use app\models\Status;
+
+// ViewModels
+use app\viewmodels\EventCategoryViewModel;
+use app\viewmodels\EventCategoryFormViewModel;
+
+class EventCategoryController extends AdminBaseController
 {
-    public $sidebar;
-
     public function behaviors()
     {
         return [
@@ -24,8 +32,7 @@ class EventCategoryController extends Controller
     }
 
     /**
-     * Lists all EventCategory models.
-     * @return mixed
+     * Event Category: List
      */
     public function actionIndex()
     {
@@ -39,141 +46,88 @@ class EventCategoryController extends Controller
     }
 
     /**
-     * Displays a single EventCategory model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * Event Category: View
      */
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $eventCategories = $this->getEventCategories();
 
-        $parentCategoryTitle = '';
-        if( $eventCategories && count($eventCategories) > 0 ){
-            $parentCategoryIndex = array_search( $model->ParentId,  $eventCategories);
-
-            if( $model->ParentId == 0){
-                $parentCategoryTitle = 'NONE';
-            }else{
-                $parentCategoryTitle = $eventCategories[$parentCategoryIndex]->Title;
-            }
-
-        }
+        // ViewModel
+        $vm = new EventCategoryViewModel();
+        $vm->Id = $model->Id;
+        $vm->Title = $model->Title;
+        $vm->Status = Status::findOne($model->StatusId);
+        $vm->Language = Language::findOne($model->LanguageId);
+        $vm->Parent = EventCategory::findOne($model->ParentId);
 
         return $this->render('view', [
-            'model' => $model,
-            'parentCategoryTitle' => $parentCategoryTitle
+            'vm' => $vm
         ]);
     }
 
 
-    /*
-     * @return language list
+    /**
+     * Event Category: Create
      */
-    public function getLanguageList(){
-        $languages = [];
-        $languages[1] = 'English';
-        $languages[2] = 'Turkish';
-        $languages[3] = 'Russian';
-        $languages[4] = 'Kazakh';
-        return $languages;
-    }
-    
-    
-    public function getLanguageNameById( $id = null ){
-        $languageTitle = null;
-        
-        if( !$id ){
-        }
-        
-    }
-
-
     public function actionCreate()
     {
-        // load eventCategories
-        $eventCategories = $this->getEventCategories();
-
-        // init dropDownlist
-        $eventCategoriesDropdownList = $this->getEventCategoryDropdownList($eventCategories);
-
-        $model = new EventCategory();
+        // ViewModel
+        $vm = new EventCategoryFormViewModel();
+        $vm->model = new EventCategory();
+        $vm->statuses = Status::find()->all();
+        $vm->statuses = ArrayHelper::map($vm->statuses, 'Id', 'Title');
+        $vm->languages = Language::find()->all();
+        $vm->languages = ArrayHelper::map($vm->languages, 'Id', 'Title');
+        $vm->parents = EventCategory::find()->all();
+        $vm->parents = ArrayHelper::map($vm->parents, 'Id', 'Title');
 
         // Post action
-        if ($model->load(Yii::$app->request->post())) {
-            $model->ParentId =  $model->ParentId ?  $model->ParentId : 0;
+        if ($vm->model->load(Yii::$app->request->post())) {
+            $vm->model->ParentId =  $vm->model->ParentId ?  $vm->model->ParentId : 0;
 
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->Id]);
+            $vm->model->save();
+            return $this->redirect(['view', 'id' => $vm->model->Id]);
         }
 
         return $this->render('create', [
-            'model' => $model,
-            'eventCategoriesDropdownList' => $eventCategoriesDropdownList
+            'vm' => $vm
         ]);
     }
 
 
-
-    // load all categories
-    public function getEventCategories(){
-
-        return EventCategory::find()
-            ->select(['Id', 'Title', 'LangId'])
-            ->where(['IsActive' => 1])
-            ->all();
-    }
-
-    public function getEventCategoryDropdownList( $items = [] ){
-        $result = [];
-
-        if( $items && count($items) > 0 ){
-            foreach( $items as $item ){
-                $result[$item->Id] = Helper::getLanguageNameById($item->LangId) .'-'.$item->Title;
-            }
-        }
-        return $result;
-    }
-
-
     /**
-     * Updates an existing EventCategory model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * Event Category: Update
      */
     public function actionUpdate($id)
     {
+        // load model
         $model = $this->findModel($id);
 
-        // load eventCategories
-        $eventCategories = $this->getEventCategories();
-        
-        // init dropDownlist
-        $eventCategoriesDropdownList = $this->getEventCategoryDropdownList($eventCategories);
+        //ViewModel
+        $vm = new EventCategoryFormViewModel();
+        $vm->model = $model;
+        $vm->statuses = Status::find()->all();
+        $vm->statuses = ArrayHelper::map($vm->statuses, 'Id', 'Title');
+        $vm->languages = Language::find()->all();
+        $vm->languages = ArrayHelper::map($vm->languages, 'Id', 'Title');
+        $vm->parents = EventCategory::find()->all();
+        $vm->parents = ArrayHelper::map($vm->parents, 'Id', 'Title');
 
+        if ($vm->model->load(Yii::$app->request->post()))
+        {
+            $vm->model->ParentId =  $model->ParentId ?  $vm->model->ParentId : 0;
+            $vm->model->save();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->ParentId =  $model->ParentId ?  $model->ParentId : 0;
-            $model->save();
-
-            return $this->redirect(['view', 'id' => $model->Id]);
+            return $this->redirect(['view', 'id' => $vm->model->Id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
-            'eventCategoriesDropdownList' => $eventCategoriesDropdownList
+            'vm' => $vm
         ]);
     }
 
     /**
-     * Deletes an existing EventCategory model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * Event Category: Delete
      */
     public function actionDelete($id)
     {
@@ -183,11 +137,7 @@ class EventCategoryController extends Controller
     }
 
     /**
-     * Finds the EventCategory model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return EventCategory the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * Event Category: Find one
      */
     protected function findModel($id)
     {
@@ -198,3 +148,4 @@ class EventCategoryController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
+

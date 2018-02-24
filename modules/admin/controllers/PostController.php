@@ -3,13 +3,10 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Post;
 use app\models\PostSearch;
-use yii\db\Exception;
-use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-class PostController extends Controller
+class PostController extends AdminBaseController
 {
     public function behaviors()
     {
@@ -23,6 +20,9 @@ class PostController extends Controller
         ];
     }
 
+    /**
+     * Post: Delete
+     */
     public function actionIndex()
     {
         $searchModel = new PostSearch();
@@ -35,6 +35,9 @@ class PostController extends Controller
     }
 
 
+    /**
+     * Post: View
+     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -42,7 +45,9 @@ class PostController extends Controller
         ]);
     }
 
-
+    /**
+     * Post: Create
+     */
     public function actionCreate()
     {
         $model = new Post();
@@ -59,15 +64,12 @@ class PostController extends Controller
         }
     }
 
-
+    /**
+     * Post: Update
+     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-//        if( !Yii::$app->user->can('updateOwnPost', [ 'post'=>$model ]) ){
-//            throw new ForbiddenHttpException('Вам суда нельза', 1);
-//        }
-
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -79,6 +81,9 @@ class PostController extends Controller
     }
 
 
+    /**
+     * Post: Delete
+     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -87,6 +92,9 @@ class PostController extends Controller
     }
 
 
+    /**
+     * Post: Find one
+     */
     protected function findModel($id)
     {
         if (($model = Post::findOne($id)) !== null) {

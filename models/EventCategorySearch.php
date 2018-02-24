@@ -1,34 +1,22 @@
 <?php
-
 namespace app\models;
-
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\EventCategory;
 
-/**
- * EventCategorySearch represents the model behind the search form of `app\models\EventCategory`.
- */
 class EventCategorySearch extends EventCategory
 {
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['Id', 'IsActive', 'ParentId', 'LangId'], 'integer'],
+            [['Id', 'StatusId', 'ParentId', 'LanguageId'], 'integer'],
             [['Title'], 'safe'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
@@ -41,7 +29,9 @@ class EventCategorySearch extends EventCategory
      */
     public function search($params)
     {
-        $query = EventCategory::find();
+        $query = EventCategory::find()
+                    ->with('language')
+                    ->with('status');
 
         // add conditions that should always apply here
 
@@ -52,17 +42,15 @@ class EventCategorySearch extends EventCategory
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
         // grid filtering conditions
         $query->andFilterWhere([
             'Id' => $this->Id,
-            'IsActive' => $this->IsActive,
+            'StatusId' => $this->StatusId,
             'ParentId' => $this->ParentId,
-            'LangId' => $this->LangId,
+            'LanguageId' => $this->LanguageId,
         ]);
 
         $query->andFilterWhere(['like', 'Title', $this->Title]);

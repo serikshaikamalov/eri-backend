@@ -37,9 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
                     'Title',
-                    'IsActive',
-                    'LangId',
-
+                    [
+                        'label' => 'Status',
+                        'value' => function( $item ){
+                            return $item->status->Title;
+                        }
+                    ],
+                    [
+                        'label' => 'Language',
+                        'value' => function( $item ){
+                            return $item->language->Title;
+                        }
+                    ],
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]); ?>
