@@ -2,10 +2,12 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
+use yii\helpers\ArrayHelper;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Events */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $this yii\web\View
+ * @var $eventFormViewModel app\viewmodels\EventFormViewModel
+ * @var $form yii\widgets\ActiveForm
+ */
 ?>
 
 <div class="events-form">
@@ -13,7 +15,7 @@ use dosamigos\ckeditor\CKEditor;
     <?php $form = ActiveForm::begin(); ?>
 
     <!-- Title -->
-    <?= $form->field($model, 'Title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($eventFormViewModel->model, 'Title')->textInput(['maxlength' => true]) ?>
 
     <!-- Start Day -->
 <!--    --><?//= $form->field($model, 'StartDay')->widget(\yii\jui\DatePicker::className(), [
@@ -22,14 +24,15 @@ use dosamigos\ckeditor\CKEditor;
 //    ])
 //    ?>
 
-    <?= $form->field($model, 'StartDay')->input('date') ?>
+    <!-- Start Day -->
+    <?= $form->field($eventFormViewModel->model, 'StartDay')->input('date') ?>
 
     <!-- Start Time -->
-    <?= $form->field($model, 'StartTime')->input('time'); ?>
+    <?= $form->field($eventFormViewModel->model, 'StartTime')->input('time'); ?>
 
     <!-- Description -->
     <?
-        echo $form->field($model, 'Description')->widget(CKEditor::className(), [
+        echo $form->field($eventFormViewModel->model, 'Description')->widget(CKEditor::className(), [
             'options' => ['rows' => 200],
             'clientOptions' => [
                 'filebrowserImageBrowseUrl' => yii\helpers\Url::to(['/imagemanager/manager', 'view-mode'=>'iframe', 'select-type'=>'ckeditor']),
@@ -38,20 +41,40 @@ use dosamigos\ckeditor\CKEditor;
         ]);
     ?>
 
-    <?= $form->field($model, 'EventCategoryId')->dropDownList( $eventCategoriesVM, [ 'prompt' => 'Select Category' ] ) ?>
+    <!-- Event Category -->
+    <? echo $form->field($eventFormViewModel->model, 'EventCategoryId')->dropDownList( ArrayHelper::map($eventFormViewModel->eventCategories,'Id','Title'), [ 'prompt' => 'Select Category' ] ) ?>
 
     <!-- Languages -->
     <?
-        echo $form->field($model, 'LangId')->dropDownList( $languages, ['prompt' => 'Select Language'] )
+        echo $form->field($eventFormViewModel->model, 'LangId')->dropDownList( ArrayHelper::map($eventFormViewModel->languages,'Id','Title'), ['prompt' => 'Select Language'] )
     ?>
 
-
-    <?= $form->field($model, 'SpeakerFullName')->textInput(['maxlength' => true]) ?>
+    <!-- Speaker -->
+    <?= $form->field($eventFormViewModel->model, 'SpeakerFullName')->textInput(['maxlength' => true]) ?>
 
     <!-- Status -->
     <?
-        echo $form->field($model, 'IsActive')->dropDownList($statuses, ['prompt' => 'Select Status']);
+        echo $form->field($eventFormViewModel->model, 'StatusId')->checkbox(ArrayHelper::map($eventFormViewModel->statuses,'Id','Title'));
     ?>
+
+
+    <!-- Address -->
+    <?= $form->field($eventFormViewModel->model, 'Address')->textInput() ?>
+
+    <!-- Link -->
+    <?= $form->field($eventFormViewModel->model, 'Link')->textInput() ?>
+    
+    
+    <!-- Image -->
+    <?
+        echo $form->field($eventFormViewModel->model, 'ImageId')->widget(\noam148\imagemanager\components\ImageManagerInputWidget::className(), [
+        'aspectRatio' => (16/9),
+        'cropViewMode' => 1,
+        'showPreview' => true,
+        'showDeletePickedImageConfirm' => false
+    ]);
+    ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

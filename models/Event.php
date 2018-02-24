@@ -1,7 +1,5 @@
 <?php
-
 namespace app\models;
-
 use Yii;
 
 /**
@@ -18,35 +16,30 @@ use Yii;
  * @property int $CreatedBy
  * @property string $CreatedDate
  * @property string $UpdatedDate
- * @property int $IsActive
+ * @property int $StatusId
+ * @property string $Address
+ * @property int $ImageId
+ * @property string $Link
  */
-class Events extends \yii\db\ActiveRecord
+class Event extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'events';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['Title', 'StartDay', 'StartTime', 'LangId', 'EventCategoryId'], 'required'],
             [['StartDay', 'StartTime', 'CreatedDate', 'UpdatedDate'], 'safe'],
-            [['Description'], 'string'],
-            [['EventCategoryId', 'LangId', 'CreatedBy', 'IsActive'], 'integer'],
+            [['Description', 'Address', 'Link'], 'string'],
+            [['EventCategoryId', 'LangId', 'CreatedBy', 'StatusId', 'ImageId'], 'integer'],
             [['Title', 'SpeakerFullName'], 'string', 'max' => 255],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -61,7 +54,30 @@ class Events extends \yii\db\ActiveRecord
             'CreatedBy' => 'Created By',
             'CreatedDate' => 'Created Date',
             'UpdatedDate' => 'Updated Date',
-            'IsActive' => 'Is Active',
+            'StatusId' => 'Publish',
+            'Address' => 'Address',
+            'ImageId' => 'Image',
+            'Link' => 'Link',
         ];
     }
+
+
+    public function getLanguage(){
+        return $this->hasOne( Language::className(), ['Id' => 'LangId'] );
+    }
+
+    public function getStatus(){
+        return $this->hasOne( Status::className(), ['Id' => 'StatusId'] );
+    }
+
+    public function getEventCategory(){
+        return $this->hasOne( EventCategory::className(), ['Id' => 'EventCategoryId'] );
+    }
+
+
+    public function getUser(){
+        return $this->hasOne( User::className(), ['Id' => 'CreatedBy'] );
+    }
+
+
 }

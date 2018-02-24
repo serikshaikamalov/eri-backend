@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Events;
+use app\models\Event;
 
 /**
  * EventsSearch represents the model behind the search form of `app\models\Events`.
  */
-class EventsSearch extends Events
+class EventsSearch extends Event
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class EventsSearch extends Events
     public function rules()
     {
         return [
-            [['Id', 'EventCategoryId', 'LangId', 'CreatedBy', 'IsActive'], 'integer'],
+            [['Id', 'EventCategoryId', 'LangId', 'CreatedBy', 'StatusId'], 'integer'],
             [['Title', 'StartDay', 'StartTime', 'Description', 'SpeakerFullName', 'CreatedDate', 'UpdatedDate'], 'safe'],
         ];
     }
@@ -41,7 +41,13 @@ class EventsSearch extends Events
      */
     public function search($params)
     {
-        $query = Events::find();
+        $query = Event::find()
+            ->with('language')
+            ->with('status')
+            ->with('eventCategory')
+            ->with('user');
+        //->all();
+
 
         // add conditions that should always apply here
 
@@ -67,7 +73,7 @@ class EventsSearch extends Events
             'CreatedBy' => $this->CreatedBy,
             'CreatedDate' => $this->CreatedDate,
             'UpdatedDate' => $this->UpdatedDate,
-            'IsActive' => $this->IsActive,
+            'StatusId' => $this->StatusId,
         ]);
 
         $query->andFilterWhere(['like', 'Title', $this->Title])

@@ -1,10 +1,17 @@
 <?php
 namespace app\modules\admin\controllers;
+use app\models\EventCategory;
+use app\models\Language;
+use app\models\Status;
+
+use mdm\admin\models\User;
 use Yii;
-use app\models\Events;
+use app\models\Event;
 use app\models\EventsSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\viewmodels\EventViewModel;
+use app\viewmodels\EventFormViewModel;
 
 class EventController extends AdminBaseController
 {
@@ -29,6 +36,14 @@ class EventController extends AdminBaseController
         $searchModel = new EventsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $res = Event::find();
+//            ->with('language')
+//            ->with('status')
+//            ->with('eventCategory')
+//            ->with('user')
+            //->all();
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -40,35 +55,65 @@ class EventController extends AdminBaseController
      */
     public function actionView($id)
     {
+        // Model from db
+        $model = $this->findModel($id);
+
+        // $viewModel to View
+        $eventViewModel = new EventViewModel();
+        $eventViewModel->Id = $model->Id;
+        $eventViewModel->Title = $model->Title;
+        $eventViewModel->StartDay = $model->StartDay;
+        $eventViewModel->StartTime = $model->StartTime;
+        // Language
+        $eventViewModel->Language = Language::findOne(['Id' => $model->LangId]);
+        $eventViewModel->Description = $model->Description;
+        $eventViewModel->SpeakerFullName = $model->SpeakerFullName;
+        $eventViewModel->Address = $model->Address;
+        $eventViewModel->Link = $model->Link;
+        $eventViewModel->CreatedBy = User::findOne($model->CreatedBy);
+        $eventViewModel->CreatedDate = $model->CreatedDate;
+        $eventViewModel->UpdatedDate = $model->UpdatedDate;
+
+        //Image
+        $eventViewModel->Image = Yii::$app->imagemanager->getImagePath($model->ImageId, 400, 400,'inset');
+        // Status
+        $eventViewModel->Status = Status::findOne(['Id' => $model->StatusId ]);
+
+        // Event Category
+        $eventViewModel->EventCategory = EventCategory::findOne(['Id'=> $model->EventCategoryId ]);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'eventViewModel' => $eventViewModel
         ]);
     }
 
 
     /*
      * Event: Create
+     * Создаем общий viewModel и туда закидывем модельку и все данные
      */
     public function actionCreate()
     {
-        $model = new Events();
+        $eventFormViewModel = new EventFormViewModel();
 
-        if ($model->load(Yii::$app->request->post())) {
+        $eventFormViewModel->model = new Event();
+        $eventFormViewModel->languages = Language::find()->all();
+        $eventFormViewModel->eventCategories = EventCategory::find()->all();
+        $eventFormViewModel->statuses = Status::find()->all();
 
-            $model->StartDay = date('Y-m-d', strtotime($model->StartDay));
-            $model->CreatedDate = date('Y-m-d H:i:s');
-            $model->UpdatedDate = date('Y-m-d H:i:s');
-            $model->CreatedBy = Yii::$app->user->id;
+        if ($eventFormViewModel->model->load(Yii::$app->request->post())) {
 
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->Id]);
+            $eventFormViewModel->model->CreatedBy = Yii::$app->user->id;
+            $eventFormViewModel->model->CreatedDate = date('Y-m-d H:i:s');
+            $eventFormViewModel->model->UpdatedDate = date('Y-m-d H:i:s');
+
+
+            $eventFormViewModel->model->save();
+            return $this->redirect(['view', 'id' => $eventFormViewModel->model->Id]);
         }
 
         return $this->render('create', [
-            'model' => $model,
-            'eventCategoriesVM' => $this->loadEventCategories(),
-            'languages' => $this->loadLanguages(),
-            'statuses' => $this->loadStatuses()
+            'eventFormViewModel' => $eventFormViewModel
         ]);
     }
 
@@ -79,21 +124,25 @@ class EventController extends AdminBaseController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $eventFormViewModel = new EventFormViewModel();
+        $eventFormViewModel->model = $this->findModel($id);
+        $eventFormViewModel->model->StartDay = date('Y-m-d', strtotime($eventFormViewModel->model->StartDay));
+        $eventFormViewModel->languages = Language::find()->all();
+        $eventFormViewModel->eventCategories = EventCategory::find()->all();
+        $eventFormViewModel->statuses = Status::find()->all();
 
-        if ($model->load(Yii::$app->request->post())) {
 
-            $model->UpdatedDate = date('Y-m-d H:i:s');
+        // POST
+        if ($eventFormViewModel->model->load(Yii::$app->request->post())) {
 
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->Id]);
+            $eventFormViewModel->model->UpdatedDate = date('Y-m-d H:i:s');
+
+            $eventFormViewModel->model->save();
+            return $this->redirect(['view', 'id' => $eventFormViewModel->model->Id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
-            'eventCategoriesVM' => $this->loadEventCategories(),
-            'languages' => $this->loadLanguages(),
-            'statuses' => $this->loadStatuses()    
+            'eventFormViewModel' => $eventFormViewModel
         ]);
     }
 
@@ -112,7 +161,7 @@ class EventController extends AdminBaseController
      */
     protected function findModel($id)
     {
-        if (($model = Events::findOne($id)) !== null) {
+        if (($model = Event::findOne($id)) !== null) {
             return $model;
         }
 

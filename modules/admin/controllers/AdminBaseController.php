@@ -44,7 +44,7 @@ class AdminBaseController extends  Controller{
         $languageTitle = '';
 
         if( !$id || $id != null ){
-            $languages = Helper::getLanguageList();
+            $languages = $this->loadLanguages();
             $languageTitle = $languages[ $id ];
         }
 
@@ -52,11 +52,24 @@ class AdminBaseController extends  Controller{
     }
 
 
+    /*
+     * Status: List
+     */
     public function loadStatuses(){
         $statuses = [];
         $statuses[1] = 'Publish';
         $statuses[2] = 'Unpublish';
         return $statuses;
+    }
+
+    /*
+     * Status: One
+     */
+    public function loadStatusById( $Id ){
+        if( !$Id ){ return false; }
+
+        $statuses = $this->loadStatuses();
+        return $statuses[$Id];
     }
 
 
