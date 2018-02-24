@@ -9,24 +9,11 @@ use Yii;
 use app\models\Event;
 use app\models\EventsSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\viewmodels\EventViewModel;
 use app\viewmodels\EventFormViewModel;
 
 class EventController extends AdminBaseController
 {
-
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
    /*
     * Event: List

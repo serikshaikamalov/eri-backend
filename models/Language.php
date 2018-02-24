@@ -1,6 +1,7 @@
 <?php
 namespace app\models;
 use Yii;
+use \yii\db\ActiveRecord;
 
 /**
  * @property int $Id
@@ -9,7 +10,7 @@ use Yii;
  * @property int $IsActive
  * @property string $Code
  */
-class Language extends \yii\db\ActiveRecord
+class Language extends ActiveRecord
 {
 
     public static function tableName()

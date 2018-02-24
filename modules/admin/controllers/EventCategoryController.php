@@ -19,18 +19,6 @@ use app\viewmodels\EventCategoryFormViewModel;
 
 class EventCategoryController extends AdminBaseController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Event Category: List
      */

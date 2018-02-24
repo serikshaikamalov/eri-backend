@@ -1,10 +1,9 @@
 <?php
 namespace app\models;
 use Yii;
+use \yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "events".
- *
  * @property int $Id
  * @property string $Title
  * @property string $StartDay
@@ -21,9 +20,8 @@ use Yii;
  * @property int $ImageId
  * @property string $Link
  */
-class Event extends \yii\db\ActiveRecord
+class Event extends ActiveRecord
 {
-
     public static function tableName()
     {
         return 'events';
@@ -77,11 +75,8 @@ class Event extends \yii\db\ActiveRecord
     public function getEventCategory(){
         return $this->hasOne( EventCategory::className(), ['Id' => 'EventCategoryId'] );
     }
-
-
+    
     public function getUser(){
         return $this->hasOne( User::className(), ['Id' => 'CreatedBy'] );
     }
-
-
 }

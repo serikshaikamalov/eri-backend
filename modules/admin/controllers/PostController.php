@@ -4,21 +4,9 @@ use Yii;
 use app\models\Post;
 use app\models\PostSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 class PostController extends AdminBaseController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Post: Delete

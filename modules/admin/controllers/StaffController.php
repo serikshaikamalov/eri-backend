@@ -3,24 +3,10 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Staff;
 use app\models\StaffSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 class StaffController extends AdminBaseController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Staff: List
      */
@@ -54,8 +40,6 @@ class StaffController extends AdminBaseController
 
         if ($model->load(Yii::$app->request->post())) {
 
-//            var_dump(Yii::$app->request->post());
-//            var_dump($model->validate() );
             if( $model->validate() ){
                 $model->save();
 

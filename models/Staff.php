@@ -1,12 +1,9 @@
 <?php
-
 namespace app\models;
-
 use Yii;
+use \yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "staffs".
- *
  * @property integer $Id
  * @property string $Title
  * @property integer $IsActive
@@ -16,19 +13,13 @@ use Yii;
  * @property string $ShortBiography
  * @property string $AvatarPath
  */
-class Staff extends \yii\db\ActiveRecord
+class Staff extends ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'staffs';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -39,9 +30,6 @@ class Staff extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
