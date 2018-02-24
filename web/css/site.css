@@ -117,3 +117,8 @@ a.desc:after {
 .container{
     width:1570px;
 }
+
+
+.card .card-body .card-title span{
+    margin-right: 10px;
+}

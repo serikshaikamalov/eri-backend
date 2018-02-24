@@ -8,6 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'name' => 'ERI: Admin Panel',
     'bootstrap' => ['log'],
+    'defaultRoute' => 'admin/default',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
