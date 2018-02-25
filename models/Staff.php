@@ -5,28 +5,25 @@ use \yii\db\ActiveRecord;
 
 /**
  * @property integer $Id
- * @property string $Title
- * @property integer $IsActive
+ * @property integer $StatusId
  * @property string $FullName
- * @property string $PositionTitle
- * @property string $ResearchGroupTitle
+ * @property string $StaffPositionId
+ * @property string $ResearchGroupId
  * @property string $ShortBiography
- * @property string $AvatarPath
  */
 class Staff extends ActiveRecord
 {
     public static function tableName()
     {
-        return 'staffs';
+        return 'staff';
     }
 
     public function rules()
     {
         return [
-            [['IsActive', 'ImageManager_id_avatar'], 'integer'],
+            [['StatusId', 'ImageId', 'StaffPositionId', 'ResearchGroupId'], 'integer'],
             [['ShortBiography'], 'string'],
-            [['Title', 'AvatarPath'], 'string', 'max' => 255],
-            [['FullName', 'PositionTitle', 'ResearchGroupTitle'], 'string', 'max' => 200],
+            [['FullName'], 'string', 'max' => 200],
         ];
     }
 
@@ -34,14 +31,33 @@ class Staff extends ActiveRecord
     {
         return [
             'Id' => 'ID',
-            'Title' => 'Title',
-            'IsActive' => 'Is Active',
+            'StatusId' => 'Status',
             'FullName' => 'Full Name',
-            'PositionTitle' => 'Position Title',
-            'ResearchGroupTitle' => 'Research Group Title',
+            'StaffPositionId' => 'Position',
+            'ResearchGroupId' => 'Research Group',
             'ShortBiography' => 'Short Biography',
-            'AvatarPath' => 'Avatar Path',
-            'ImageManager_id_avatar' => 'Image'
+            'ImageId' => 'Image'
         ];
+    }
+
+
+    /**
+     * RELATIONS
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguage(){
+        return $this->hasOne( Language::className(), ['Id' => 'LanguageId'] );
+    }
+
+    public function getStatus(){
+        return $this->hasOne( Status::className(), ['Id' => 'StatusId'] );
+    }
+
+    public function getUser(){
+        return $this->hasOne( User::className(), ['Id' => 'CreatedBy'] );
+    }
+
+    public function getStaffPosition(){
+        return $this->hasOne( StaffPosition::className(), ['Id' => 'StaffPositionId'] );
     }
 }

@@ -24,7 +24,7 @@ class Event extends ActiveRecord
 {
     public static function tableName()
     {
-        return 'events';
+        return 'event';
     }
 
     public function rules()

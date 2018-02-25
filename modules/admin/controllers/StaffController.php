@@ -1,5 +1,6 @@
 <?php
 namespace app\modules\admin\controllers;
+use Symfony\Component\Finder\Tests\FinderTest;
 use Yii;
 use app\models\Staff;
 use app\models\StaffSearch;
@@ -14,7 +15,7 @@ class StaffController extends AdminBaseController
     {
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

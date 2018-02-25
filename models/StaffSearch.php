@@ -3,15 +3,14 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Staff;
 
 class StaffSearch extends Staff
 {
     public function rules()
     {
         return [
-            [['Id', 'IsActive'], 'integer'],
-            [['Title', 'FullName', 'PositionTitle', 'ResearchGroupTitle', 'ShortBiography', 'AvatarPath'], 'safe'],
+            [['Id', 'StatusId', 'ImageId'], 'integer'],
+            [['FullName', 'PositionId', 'ResearchGroupId', 'ShortBiography'], 'safe'],
         ];
     }
 
@@ -23,6 +22,7 @@ class StaffSearch extends Staff
     public function search($params)
     {
         $query = Staff::find();
+                    //->with('staffPosition');
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -37,15 +37,10 @@ class StaffSearch extends Staff
         // grid filtering conditions
         $query->andFilterWhere([
             'Id' => $this->Id,
-            'IsActive' => $this->IsActive,
+            'StatusId' => $this->StatusId,
         ]);
 
-        $query->andFilterWhere(['like', 'Title', $this->Title])
-            ->andFilterWhere(['like', 'FullName', $this->FullName])
-            ->andFilterWhere(['like', 'PositionTitle', $this->PositionTitle])
-            ->andFilterWhere(['like', 'ResearchGroupTitle', $this->ResearchGroupTitle])
-            ->andFilterWhere(['like', 'ShortBiography', $this->ShortBiography])
-            ->andFilterWhere(['like', 'AvatarPath', $this->AvatarPath]);
+        $query->andFilterWhere(['like', 'FullName', $this->FullName]);
 
         return $dataProvider;
     }
