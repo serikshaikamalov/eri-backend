@@ -1,5 +1,10 @@
 <?php
 namespace app\modules\admin\controllers;
+use app\models\Language;
+use app\models\StaffPosition;
+use app\models\StaffType;
+use app\models\Status;
+use app\viewmodels\StaffFormViewModel;
 use Symfony\Component\Finder\Tests\FinderTest;
 use Yii;
 use app\models\Staff;
@@ -37,20 +42,26 @@ class StaffController extends AdminBaseController
      */
     public function actionCreate()
     {
-        $model = new Staff();
+        $vm = new StaffFormViewModel();
+        $vm->model = new Staff();
 
-        if ($model->load(Yii::$app->request->post())) {
+        $vm->statuses = Status::getStatusList();
+        $vm->staffTypes = StaffType::getStaffTypeList();
+        $vm->languages = Language::getLanguageList();
+        $vm->staffPositions = StaffPosition::getStaffPositionList();
 
-            if( $model->validate() ){
-                $model->save();
 
-                return $this->redirect(['view', 'id' => $model->Id]);
+
+        if ($vm->model->load(Yii::$app->request->post())) {
+
+            if( $vm->model->validate() ){
+                $vm->model->save();
+
+                return $this->redirect(['view', 'id' => $vm->model->Id]);
             }
-
-
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'vm' => $vm,
             ]);
         }
     }

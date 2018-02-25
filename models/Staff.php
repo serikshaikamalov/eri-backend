@@ -21,7 +21,7 @@ class Staff extends ActiveRecord
     public function rules()
     {
         return [
-            [['StatusId', 'ImageId', 'StaffPositionId', 'ResearchGroupId'], 'integer'],
+            [['StatusId', 'ImageId', 'StaffPositionId', 'ResearchGroupId', 'ResearchGroupId', 'LanguageId', 'StaffPositionId'], 'integer'],
             [['ShortBiography'], 'string'],
             [['FullName'], 'string', 'max' => 200],
         ];
@@ -36,8 +36,18 @@ class Staff extends ActiveRecord
             'StaffPositionId' => 'Position',
             'ResearchGroupId' => 'Research Group',
             'ShortBiography' => 'Short Biography',
-            'ImageId' => 'Image'
+            'ImageId' => 'Image',
+            'LanguageId' => 'Language',
         ];
+    }
+
+
+    /*
+     * @return Staff[]
+     */
+    public static function getStaffList(){
+        $staffs = Staff::find()->all();
+        return ArrayHelper::map($staffs, 'Id', 'FullName');
     }
 
 

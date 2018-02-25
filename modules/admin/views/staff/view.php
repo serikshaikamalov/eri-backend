@@ -2,17 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Staff */
 
-$this->title = $model->Title;
 $this->params['breadcrumbs'][] = ['label' => 'Staff', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model->FullName;
 ?>
 <div class="staff-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($model->FullName) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->Id], ['class' => 'btn btn-primary']) ?>
@@ -29,13 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'Id',
-            'Title',
-            'IsActive',
+            'StatusId',
             'FullName',
-            'PositionTitle',
-            'ResearchGroupTitle',
+            'StaffPositionId',
+            'ResearchGroupId',
             'ShortBiography:ntext',
-            'AvatarPath',
+            'ImageId',
         ],
     ]) ?>
 
