@@ -37,6 +37,7 @@ AppAsset::register($this);
         ['label' => 'Staffs', 'url' => ['/admin/staff/']],
         ['label' => 'Статьи', 'url' => ['/admin/post/']],
         ['label' => 'Events', 'url' => ['/admin/event/']],
+        ['label' => 'Daily Monitor', 'url' => ['/admin/daily-monitor/']],
         ['label' => 'Media Manager', 'url' => ['/imagemanager/']],
     ];
 
