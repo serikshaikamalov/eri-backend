@@ -1,7 +1,7 @@
 <?php
 
 if(YII_ENV  == 'dev'){
-    $connectionString[dsn] = 'mysql:host=localhost;dbname=yii2basic';
+    $connectionString[dsn] = 'mysql:host=localhost;dbname=eri';
     $connectionString[username] = 'root';
     $connectionString[password] = '';
 }else{
