@@ -36,18 +36,17 @@ $this->params['breadcrumbs'][] = $vm->title;
                 'label' => 'Language',
                 'value' => $vm->Language->Title
             ],
-            'LanguageId',
             'Image:image',
-//            [
-//                'label' => 'Image',
-//                'value' => $model->Image
-//            ],
-            //'CreatedBy',
             [
                 'label' => 'Author',
                 'value' => $vm->Author->username
             ],
             'CreatedDate',
+            [
+                'label' => 'Status',
+                'value' => $vm->Status->Title
+
+            ]
         ],
     ]) ?>
 

@@ -7,6 +7,8 @@ use app\models\DailyMonitor;
 
 class DailyMonitorSearch extends DailyMonitor
 {
+    public $Title;
+
     public function rules()
     {
         return [
@@ -19,12 +21,17 @@ class DailyMonitorSearch extends DailyMonitor
     {
         return Model::scenarios();
     }
-    
+
+    /*
+     * @return $dataProvider
+     * @params $params
+     */
     public function search($params)
     {
-        $query = DailyMonitor::find();
-
-        // add conditions that should always apply here
+        // ActiveQuery
+        $query = DailyMonitor::find()
+                    ->with('language')
+                    ->with('status');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -33,8 +40,6 @@ class DailyMonitorSearch extends DailyMonitor
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
@@ -48,8 +53,8 @@ class DailyMonitorSearch extends DailyMonitor
         ]);
 
         $query->andFilterWhere(['like', 'Title', $this->Title])
-            ->andFilterWhere(['like', 'Description', $this->Description])
-            ->andFilterWhere(['like', 'Link', $this->Link])
+            //->andFilterWhere(['like', 'Description', $this->Description])
+            //->andFilterWhere(['like', 'Link', $this->Link])
             ->andFilterWhere(['like', 'IsActive', $this->IsActive]);
 
         return $dataProvider;

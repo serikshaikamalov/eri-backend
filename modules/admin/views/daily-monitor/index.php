@@ -24,17 +24,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'Id',
             'Title',
-            'Description:ntext',
-            'Link',
-            'IsActive',
-            //'LanguageId',
-            //'ImageId',
-            //'CreatedBy',
-            //'CreatedDate',
-
+            [
+                'attribute' => 'IsActive',
+                'label' => 'Status',
+                'value' => function( $item ){
+                    return $item->status->Title;
+                },
+                'filter' => \app\models\Status::getStatusList()
+            ],
+            [
+                'attribute' => 'LanguageId',
+                'label' => 'Language',
+                'value' => function( $item ){
+                    return $item->language->Title;
+                },
+                'filter' => \app\models\Language::getLanguageList()
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

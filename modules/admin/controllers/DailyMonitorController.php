@@ -38,6 +38,7 @@ class DailyMonitorController extends Controller
                     ->where(['Id'=>$id])
                     ->with('language')
                     ->with('user')
+                    ->with('status')
                     ->one();
 
         // ViewModel
@@ -52,6 +53,9 @@ class DailyMonitorController extends Controller
         $vm->Image = Yii::$app->imagemanager->getImagePath($model->ImageId, 400, 400,'inset');
         $vm->Author = $model->user;
         $vm->CreatedDate = $model->CreatedDate;
+        $vm->Link = $model->Link;
+        $vm->IsActive = $model->IsActive;
+        $vm->Status = $model->status;
 
         
         return $this->render('view', [
@@ -91,14 +95,22 @@ class DailyMonitorController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $vm = new DailyMonitorFormViewModel();
+        $vm->model = $this->findModel($id);
+        $vm->languages = Language::find()->all();
+        $vm->languages = ArrayHelper::map($vm->languages, 'Id', 'Title');
+        $vm->statuses = Status::find()->all();
+        $vm->statuses = ArrayHelper::map($vm->statuses, 'Id', 'Title');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Id]);
+        // POST
+        if ($vm->model->load(Yii::$app->request->post())) {
+
+            $vm->model->save();
+            return $this->redirect(['view', 'id' => $vm->model->Id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'vm' => $vm,
         ]);
     }
 

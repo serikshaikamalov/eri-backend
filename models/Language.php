@@ -2,6 +2,7 @@
 namespace app\models;
 use Yii;
 use \yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property int $Id
@@ -36,5 +37,11 @@ class Language extends ActiveRecord
             'IsActive' => 'Is Active',
             'Code' => 'Code',
         ];
+    }
+
+
+    public static function getLanguageList(){
+        $languages = Language::find()->all();
+        return ArrayHelper::map($languages, 'Id', 'Title');
     }
 }

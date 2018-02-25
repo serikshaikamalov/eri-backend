@@ -2,6 +2,7 @@
 namespace app\models;
 use Yii;
 use \yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property int $Id
@@ -31,4 +32,11 @@ class Status extends ActiveRecord
             'IsActive' => 'Is Active',
         ];
     }
+
+
+    public static function getStatusList(){
+        $statuses = Status::find()->all();
+        return ArrayHelper::map($statuses, 'Id', 'Title');
+    }
+
 }

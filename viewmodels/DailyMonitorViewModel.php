@@ -7,6 +7,7 @@ class DailyMonitorViewModel{
     public $Description;
     public $Link;
     public $IsActive;
+    public $Status;
     public $LanguageId;
     public $Language;
     public $ImageId;
