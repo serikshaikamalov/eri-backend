@@ -39,10 +39,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
-                    'Id',
                     'Title',
-                    'StatusId',
-                    'LanguageId',
+                    [
+                        'attribute' => 'StatusId',
+                        'label' => 'Status',
+                        'value' => function($item){
+                            return $item->status->Title;
+                        },
+                        'filter' => \app\models\Status::getStatusList()
+                    ],
+                    [
+                        'attribute' => 'LanguageId',
+                        'label' => 'Language',
+                        'value' => function($item){
+                            return $item->language->Title;
+                        },
+                        'filter' => \app\models\Language::getLanguageList()
+                    ],
 
                     ['class' => 'yii\grid\ActionColumn'],
                 ],

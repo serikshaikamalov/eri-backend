@@ -1,32 +1,18 @@
 <?php
 namespace app\modules\admin\controllers;
+use app\models\Language;
+use app\models\Staff;
+use app\models\Status;
+use app\viewmodels\StaffPositionFormViewModel;
 use Yii;
 use app\models\StaffPosition;
 use app\models\StaffPositionSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 class StaffPositionController extends AdminBaseController
 {
     /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * Lists all StaffPosition models.
-     * @return mixed
+     * Staff Position: List
      */
     public function actionIndex()
     {
@@ -40,62 +26,65 @@ class StaffPositionController extends AdminBaseController
     }
 
     /**
-     * Displays a single StaffPosition model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * Staff Position: View
      */
     public function actionView($id)
     {
+        $model = StaffPosition::getFullStaffPosition($id);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model
         ]);
     }
 
     /**
-     * Creates a new StaffPosition model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * Staff Position: Create
      */
     public function actionCreate()
     {
-        $model = new StaffPosition();
+        $vm = new StaffPositionFormViewModel();
+        $vm->model = new StaffPosition();
+        $vm->languages = Language::getLanguageList();
+        $vm->statuses = Status::getStatusList();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Id]);
+
+        // POST
+        if ($vm->model->load(Yii::$app->request->post())) {
+
+            $vm->model->save();
+            return $this->redirect(['view', 'id' => $vm->model->Id]);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'vm' => $vm,
         ]);
     }
 
     /**
-     * Updates an existing StaffPosition model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * Staff Position: Update
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $vm = new StaffPositionFormViewModel();
+        $vm->model = $this->findModel($id);
+        $vm->languages = Language::getLanguageList();
+        $vm->statuses = Status::getStatusList();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Id]);
+
+        // POST
+        if ($vm->model->load(Yii::$app->request->post())) {
+
+            $vm->model->save();
+            return $this->redirect(['view', 'id' => $vm->model->Id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'vm' => $vm,
         ]);
     }
 
     /**
-     * Deletes an existing StaffPosition model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * Staff Position: Delete
      */
     public function actionDelete($id)
     {
@@ -105,11 +94,7 @@ class StaffPositionController extends AdminBaseController
     }
 
     /**
-     * Finds the StaffPosition model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return StaffPosition the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * Staff Position: Find One
      */
     protected function findModel($id)
     {

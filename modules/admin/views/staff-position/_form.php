@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\StaffPosition */
+/* @var $vm app\viewmodels\StaffPositionFormViewModel */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -12,11 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'Title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($vm->model, 'Title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'StatusId')->textInput() ?>
+    <?= $form->field($vm->model, 'StatusId')->dropDownList( $vm->statuses ) ?>
 
-    <?= $form->field($model, 'LanguageId')->textInput() ?>
+    <?= $form->field($vm->model, 'LanguageId')->dropDownList( $vm->languages ) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

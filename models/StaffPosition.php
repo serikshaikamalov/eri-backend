@@ -30,16 +30,57 @@ class StaffPosition extends ActiveRecord
         return [
             'Id' => 'ID',
             'Title' => 'Title',
-            'StatusId' => 'Status ID',
-            'LanguageId' => 'Language ID',
+            'StatusId' => 'Status',
+            'LanguageId' => 'Language',
         ];
     }
 
 
+    /*
+     * FULL
+    * @return Active Query
+    */
+    public static function getFullStaffPositionList(){
+        $query = StaffPosition::find()
+            ->with('status')
+            ->with('language');
+        return $query;
+    }
+
+    /*
+     * FULL
+    * @return Active Query
+    */
+    public static function getFullStaffPosition($Id){
+        $query = StaffPosition::find()
+            ->with('status')
+            ->with('language')
+            ->where(['Id'=> $Id])
+            ->one();
+
+        return $query;
+    }
+
+    /*
+     * @return StaffPosition[]
+     */
     public static function getStaffPositionList(){
         $staffPositions = StaffPosition::find()->all();
         return ArrayHelper::map($staffPositions, 'Id', 'Title');
     }
-    
 
+
+    /**
+     * RELATIONS
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguage(){
+        return $this->hasOne( Language::className(), ['Id' => 'LanguageId'] );
+    }
+
+    public function getStatus()
+    {
+        return $this->hasOne(Status::className(), ['Id' => 'StatusId']);
+
+    }
 }

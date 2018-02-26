@@ -1,21 +1,19 @@
 <?php
-
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
-/* @var $model app\models\StaffPosition */
+/* @var $vm app\viewmodels\StaffPositionFormViewModel */
 
 $this->title = 'Create Staff Position';
 $this->params['breadcrumbs'][] = ['label' => 'Staff Positions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $vm->model->Title;
 ?>
 <div class="staff-position-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($vm->model->Title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'vm' => $vm,
     ]) ?>
 
 </div>

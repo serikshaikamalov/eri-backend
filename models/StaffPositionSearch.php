@@ -41,7 +41,7 @@ class StaffPositionSearch extends StaffPosition
      */
     public function search($params)
     {
-        $query = StaffPosition::find();
+        $query = StaffPosition::getFullStaffPositionList();
 
         // add conditions that should always apply here
 
