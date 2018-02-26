@@ -1,7 +1,5 @@
 <?php
-
 namespace app\modules\admin\controllers;
-
 use Yii;
 use app\models\StaffPosition;
 use app\models\StaffPositionSearch;
@@ -9,10 +7,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * StaffPositionController implements the CRUD actions for StaffPosition model.
- */
-class StaffPositionController extends Controller
+class StaffPositionController extends AdminBaseController
 {
     /**
      * @inheritdoc

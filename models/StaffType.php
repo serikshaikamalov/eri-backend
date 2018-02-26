@@ -30,9 +30,32 @@ class StaffType extends ActiveRecord
         return [
             'Id' => 'ID',
             'Title' => 'Title',
-            'StatusId' => 'Status ID',
-            'LanguageId' => 'Language ID',
+            'StatusId' => 'Status',
+            'LanguageId' => 'Language',
         ];
+    }
+
+    /*
+     * @return StaffType detailed
+     */
+    public static function getFullStaffType($Id){
+        $staff = StaffType::find()
+            ->with('status')
+            ->with('language')
+            ->where(['Id' => $Id] )
+            ->one();
+
+        return $staff;
+    }
+
+    /*
+     * @return Active Query
+     */
+    public static function getFullStaffTypeList(){
+        $query = StaffType::find()
+                        ->with('status')
+                        ->with('language');
+        return $query;
     }
 
 

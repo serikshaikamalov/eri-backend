@@ -3,18 +3,18 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 /* @var $this yii\web\View */
-/* @var $model app\models\Staff */
+/* @var $vm app\viewmodels\StaffViewModel */
 
 $this->params['breadcrumbs'][] = ['label' => 'Staff', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $model->FullName;
+$this->params['breadcrumbs'][] = $vm->FullName;
 ?>
 <div class="staff-view">
 
-    <h1><?= Html::encode($model->FullName) ?></h1>
+    <h1><?= Html::encode($vm->FullName) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->Id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->Id], [
+        <?= Html::a('Update', ['update', 'id' => $vm->Id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $vm->Id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -24,15 +24,23 @@ $this->params['breadcrumbs'][] = $model->FullName;
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model' => $vm,
         'attributes' => [
             'Id',
-            'StatusId',
+            //'StatusId',
+            [
+                'label' => 'Status',
+                'value' => $vm->Status->Title
+            ],
             'FullName',
-            'StaffPositionId',
+            //'StaffPositionId',
+            [
+                'label' => 'Position',
+                'value' => $vm->StaffPosition->Title
+            ],
             'ResearchGroupId',
             'ShortBiography:ntext',
-            'ImageId',
+            'Image:image',
         ],
     ]) ?>
 

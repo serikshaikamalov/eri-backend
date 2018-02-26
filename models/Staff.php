@@ -21,7 +21,7 @@ class Staff extends ActiveRecord
     public function rules()
     {
         return [
-            [['StatusId', 'ImageId', 'StaffPositionId', 'ResearchGroupId', 'ResearchGroupId', 'LanguageId', 'StaffPositionId'], 'integer'],
+            [['StatusId', 'ImageId', 'StaffPositionId', 'ResearchGroupId', 'ResearchGroupId', 'LanguageId', 'StaffPositionId', 'StaffTypeId'], 'integer'],
             [['ShortBiography'], 'string'],
             [['FullName'], 'string', 'max' => 200],
         ];
@@ -35,12 +35,27 @@ class Staff extends ActiveRecord
             'FullName' => 'Full Name',
             'StaffPositionId' => 'Position',
             'ResearchGroupId' => 'Research Group',
+            'StaffTypeId' => 'Staff Type',
             'ShortBiography' => 'Short Biography',
             'ImageId' => 'Image',
             'LanguageId' => 'Language',
         ];
     }
 
+
+    /*
+     * @return Staff with relations
+     */
+    public static function getStaff($Id){
+        $staff = Staff::find()
+            ->with('language')
+            ->with('staffType')
+            ->with('staffPosition')
+            ->with('status')
+            ->where(['Id' => $Id])
+            ->one();
+        return $staff;
+    }
 
     /*
      * @return Staff[]
@@ -63,8 +78,8 @@ class Staff extends ActiveRecord
         return $this->hasOne( Status::className(), ['Id' => 'StatusId'] );
     }
 
-    public function getUser(){
-        return $this->hasOne( User::className(), ['Id' => 'CreatedBy'] );
+    public function getStaffType(){
+        return $this->hasOne( StaffPosition::className(), ['Id' => 'StaffTypeId'] );
     }
 
     public function getStaffPosition(){
