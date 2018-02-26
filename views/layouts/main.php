@@ -33,6 +33,8 @@ AppAsset::register($this);
 
     $menuItems = [
         ['label' => 'Dashboard', 'url' => ['/admin/default']],
+        ['label' => 'Publications', 'url' => ['/admin/publications']],
+        ['label' => 'Research Group', 'url' => ['/admin/research-group']],
         ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
         ['label' => 'Staffs', 'url' => ['/admin/staff/']],
         ['label' => 'Статьи', 'url' => ['/admin/post/']],
