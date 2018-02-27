@@ -44,9 +44,9 @@ AppAsset::register($this);
     ];
 
     if( Yii::$app->user->isGuest ){
-        array_push( $menuItems,  ['label' => 'Login', 'url' => ['/site/login']]);
+        array_push( $menuItems,  ['label' => 'Login', 'url' => ['/admin/site/login']]);
     }else{
-        array_push( $menuItems,  ['label' =>  'Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout']]);
+        array_push( $menuItems,  ['label' =>  'Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/admin/site/logout']]);
     }
 
 

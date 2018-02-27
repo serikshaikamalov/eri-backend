@@ -4,6 +4,8 @@ use \yii\web\Controller;
 use yii\filters\VerbFilter;
 
 class AdminBaseController extends Controller{
+    public $layout = 'main';
+
     public function behaviors()
     {
         return [

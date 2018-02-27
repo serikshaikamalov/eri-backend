@@ -23,7 +23,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'loginUrl' => ['site/login'],
+            'loginUrl' => ['admin/site/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -71,9 +71,8 @@ $config = [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'api/*',
-            'site/login',
-            'site/signup',
-            //'rbac/*'
+            'admin/site/login',
+            'admin/site/signup'
         ]
     ],
     'params' => $params,
@@ -92,7 +91,7 @@ $config = [
                 ],
             ],
             'layout' => 'left-menu',
-            'mainLayout' => '@app/views/layouts/main.php',
+            'mainLayout' => '@app/modules/admin/views/layouts/main.php',
         ],
         'api' => [
             'class' => 'app\modules\api\Module',

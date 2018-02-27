@@ -12,7 +12,7 @@ use app\models\DailyMonitorSearch;
 use app\viewmodels\DailyMonitorFormViewModel;
 
 
-class DailyMonitorController extends Controller
+class DailyMonitorController extends AdminBaseController
 {
     /**
      * Daily Monitor: List
